@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Refresh"
+      CONTENT="1; URL=index.html">
+
+</HEAD>
+
+<BODY>
+
+<?  include "globals.tbh"
+
+	dim red_on as byte
+	dim green_on as byte
+	
+	red_on = instr(1,sock.httprqstring,"red=on",1)
+	green_on = instr(1,sock.httprqstring,"green=on",1)
+	pattern = get_http_argument(sock.httprqstring, "pattern=")
+	
+	if red_on > 0 then
+		if green_on > 0 then
+			pat.play("B",PL_PAT_CANINT)
+		else
+			pat.play("R",PL_PAT_CANINT)
+		end if
+	else 
+		if green_on > 0 then
+			pat.play("G",PL_PAT_CANINT)
+		else
+			pat.play("-",PL_PAT_CANINT)
+		end if
+	end if
+?>
+
+
+</BODY>
+</HTML>

@@ -1,0 +1,63 @@
+'------------------------------------------------------------------------------------------------------
+'										Button LED Demo
+'------------------------------------------------------------------------------------------------------
+'This is a demo program which allows the user to control the LED through a web page.
+'The main purpose of the demo program is to show the user how to setup web pages for their device, and
+'how to use global functions and global variables 						
+'
+'How does this demo work?
+'1. User can open the web page at http://192.168.1.107 (defined by net.ip), and use the check box to 
+'   control the LED
+'2. User can also type a certain pattern in the text box, and push the button on the device to 
+'   play the pattern on the LEDs. The pattern may only contain following characters:
+'   "R" for red LED, "G" for green LED, "B" for both green and red LED, and "-" none of the LED
+'   
+'
+' RD.040907
+'------------------------------------------------------------------------------------------------------
+
+'global variable, which can be used crossing modules 
+'(main.tbs and post.html in this case)
+public dim pattern as string 
+
+
+'To extract parameters from http_req_string
+public function get_http_argument(byref http_req_string as string, byref argument as string) as string
+	dim i, j as byte
+	i = instr(1, http_req_string, argument,1)
+	if (i = 0) then
+		get_http_argument = ""
+	  	exit function
+	end if
+	
+	i = i + len(argument)
+	
+	j = instr(i, http_req_string, "&",1)
+	if (j = 0) then
+		j = instr(i, http_req_string, " ",1)
+		if (j = 0) then
+			j = len(argument)
+		end if
+	end if	
+	get_http_argument = mid(http_req_string, i, j - i)
+end function
+
+'this event_handler is fired every time when the system starts
+sub on_sys_init
+'set sock 1 for web control	
+	sock.num = 1
+'request buff space for web connection
+	sock.rxbuffrq(1)					
+	sock.txbuffrq(1)
+	sock.varbuffrq(1)
+	sock.protocol=PL_SOCK_PROTOCOL_TCP
+	sock.httpmode=YES
+	sock.inconmode=PL_SOCK_INCONMODE_ANY_IP_ANY_PORT
+	sock.httpportlist="80"
+	net.ip = "192.168.1.107"
+	sys.buffalloc
+end sub
+
+sub on_button_pressed
+	pat.play(pattern,PL_PAT_CANINT)
+end sub
