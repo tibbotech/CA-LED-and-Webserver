@@ -1,5 +1,10 @@
-# CA-LED-and-Webserver
+# LED and Webserver
 
-To download the most recent project without installing GIT, please press the green "Clone or Download" button and select "Download ZIP".
+This program sets up a simple web page on the device, with a form which is used to control the LEDs of the device. The form can be used for turning on either of the two LEDs, and also for entering a complex sequence of LED flashes. After entering a complex sequence and submitting the form, the sequence can be played by pressing the button on the device itself.
 
-For more detail about this project, please visit <a href="http://tibbo.com/programmable/applications/web/led_web_server.html" target="_blank">Project Description Page</a>
+The demo shows the following basics:
+
+- Building an interactive web page with embedded Tibbo BASIC code
+- Using web forms
+- Controlling the LEDs
+- Interacting with the hardware button - working with events
